@@ -83,7 +83,7 @@ const About = () => {
 
           <div className="glass p-8 rounded-3xl border-l-4 border-primary">
             <h3 className="text-xl font-bold mb-3 text-primary uppercase tracking-wider">Location</h3>
-            <p className="text-gray-400">Philippines (Available for remote opportunities)</p>
+            <p className="text-gray-400">Batangas,Philippines (Available for remote opportunities)</p>
           </div>
         </motion.div>
       </div>
