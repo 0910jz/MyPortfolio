@@ -1,8 +1,48 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, Send, MessageSquare, Facebook, Instagram } from 'lucide-react';
 
 const Contact = () => {
+  const formRef = useRef();
+
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus(null);
+
+    emailjs.sendForm(
+      'service_s8cmkiq',
+      'template_dwrn48o',
+      formRef.current,
+      'XPzetGgpkGQAqV3le'
+    )
+      .then(() => {
+        setLoading(false);
+        setStatus('success');
+        setForm({ name: '', email: '', message: '' });
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+        setStatus('error');
+      });
+  };
+
   return (
     <section id="contact" className="relative overflow-hidden pt-24 pb-12">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-96 bg-primary/5 blur-[120px] rounded-full -z-10" />
@@ -64,22 +104,32 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
           className="glass p-8 rounded-3xl"
         >
-          <form className="flex flex-col gap-4">
+          <form ref={formRef} onSubmit={sendEmail} className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Full Name</label>
-              <input type="text" placeholder="Your Name" className="bg-white/5 border border-gray-800 rounded-xl px-4 py-3 focus:border-primary outline-none transition-colors text-sm" />
+              <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Your Name" className="bg-white/5 border border-gray-800 rounded-xl px-4 py-3 focus:border-primary outline-none transition-colors text-sm" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Email Address</label>
-              <input type="email" placeholder="email@example.com" className="bg-white/5 border border-gray-800 rounded-xl px-4 py-3 focus:border-secondary outline-none transition-colors text-sm" />
+              <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="email@example.com" className="bg-white/5 border border-gray-800 rounded-xl px-4 py-3 focus:border-secondary outline-none transition-colors text-sm" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Message</label>
-              <textarea rows="4" placeholder="How can I help you?" className="bg-white/5 border border-gray-800 rounded-xl px-4 py-3 focus:border-tertiary outline-none transition-colors text-sm resize-none"></textarea>
+              <textarea name="message" rows="4" value={form.message} onChange={handleChange} placeholder="How can I help you?" className="bg-white/5 border border-gray-800 rounded-xl px-4 py-3 focus:border-tertiary outline-none transition-colors text-sm resize-none" />
             </div>
-            <button className="mt-4 w-full py-4 bg-gradient text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:glow glow-hover transition-all active:scale-95 group">
-              Send Message <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            <button type="submit" disabled={loading} className="mt-4 w-full py-4 bg-gradient text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:glow glow-hover transition-all active:scale-95 group disabled:opacity-50"> {loading ? 'Sending...' : 'Send Message'} <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </button>
+            {status === 'success' && (
+              <p className="text-green-500 text-sm mt-2">
+                Message sent successfully!
+              </p>
+            )}
+
+            {status === 'error' && (
+              <p className="text-red-500 text-sm mt-2">
+                Something went wrong. Try again.
+              </p>
+            )}
           </form>
         </motion.div>
       </div>
