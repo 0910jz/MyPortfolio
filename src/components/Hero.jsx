@@ -25,7 +25,7 @@ const Hero = () => {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-400 font-light max-w-2xl mb-10 leading-relaxed">
-              Aspiring <span className="text-white font-medium">Full Stack, AI & Data Science Engineer</span> building intelligent systems that solve real-world problems.
+              Aspiring <span className="text-white font-medium">Full Stack, AI Engineer, & Data Scientist</span> building intelligent systems that solve real-world problems.
             </p>
           </div>
 
