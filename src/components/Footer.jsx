@@ -19,10 +19,10 @@ const Footer = () => {
           <a href="https://www.instagram.com/0910jz/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-all hover:scale-110">
             <Instagram size={20} />
           </a>
-          <a href="#" className="text-gray-400 hover:text-white transition-all hover:scale-110">
+          <a href="https://github.com/0910jz" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-all hover:scale-110">
             <Github size={20} />
           </a>
-          <a href="#" className="text-gray-400 hover:text-blue-500 transition-all hover:scale-110">
+          <a href="https://www.linkedin.com/in/jcce0932/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-all hover:scale-110">
             <Linkedin size={20} />
           </a>
         </div>
