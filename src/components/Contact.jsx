@@ -86,11 +86,11 @@ const Contact = () => {
               <Instagram className="text-gray-400 group-hover:text-pink-500 group-hover:scale-110 transition-all" size={32} />
               <span className="text-xs font-bold uppercase tracking-widest text-gray-500 text-center">Instagram</span>
             </a>
-            <a href="#" className="glass p-6 rounded-2xl flex flex-col items-center gap-3 group hover:border-secondary/50 transition-all">
+            <a href="https://github.com/0910jz" className="glass p-6 rounded-2xl flex flex-col items-center gap-3 group hover:border-secondary/50 transition-all">
               <Github className="text-gray-400 group-hover:text-secondary group-hover:scale-110 transition-all" size={32} />
               <span className="text-xs font-bold uppercase tracking-widest text-gray-500 text-center">GitHub</span>
             </a>
-            <a href="#" className="glass p-6 rounded-2xl flex flex-col items-center gap-3 group hover:border-blue-500/50 transition-all">
+            <a href="https://www.linkedin.com/in/james-christopher-esteban-b5a31926b/" className="glass p-6 rounded-2xl flex flex-col items-center gap-3 group hover:border-blue-500/50 transition-all">
               <Linkedin className="text-gray-400 group-hover:text-blue-500 group-hover:scale-110 transition-all" size={32} />
               <span className="text-xs font-bold uppercase tracking-widest text-gray-500 text-center">LinkedIn</span>
             </a>
