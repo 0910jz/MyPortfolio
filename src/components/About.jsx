@@ -78,7 +78,7 @@ const About = () => {
           <div className="glass p-8 rounded-3xl border-l-4 border-tertiary">
             <h3 className="text-xl font-bold mb-3 text-tertiary uppercase tracking-wider">Education</h3>
             <p className="text-white font-medium">BS in Computer Science</p>
-            <p className="text-gray-400">Current Student • Aspiring AI Engineer & Full Stack Developer</p>
+            <p className="text-gray-400">2022-2026 • Aspiring AI Engineer & Full Stack Developer</p>
           </div>
 
           <div className="glass p-8 rounded-3xl border-l-4 border-primary">
