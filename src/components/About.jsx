@@ -47,7 +47,6 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="relative"
         >
-          {/* Decorative element */}
           <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-primary/50 -translate-x-4 -translate-y-4" />
 
           <div className="glass rounded-3xl p-8 relative overflow-hidden group">
@@ -77,18 +76,17 @@ const About = () => {
 
           <div className="glass p-8 rounded-3xl border-l-4 border-tertiary">
             <h3 className="text-xl font-bold mb-3 text-tertiary uppercase tracking-wider">Education</h3>
-            <p className="text-white font-medium">BS in Computer Science</p>
-            <p className="text-gray-400">2022-2026 • Aspiring AI Engineer & Full Stack Developer</p>
+            <p className="text-white font-medium">Bachelor of Science in Computer Science</p>
+            <p className="text-gray-400">University of Batangas (2022-2026)</p>
           </div>
 
           <div className="glass p-8 rounded-3xl border-l-4 border-primary">
             <h3 className="text-xl font-bold mb-3 text-primary uppercase tracking-wider">Location</h3>
-            <p className="text-gray-400">Batangas,Philippines (Available for remote opportunities)</p>
+            <p className="text-gray-400">Batangas, Philippines (Available for remote opportunities)</p>
           </div>
         </motion.div>
       </div>
 
-      {/* Certifications Row */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
