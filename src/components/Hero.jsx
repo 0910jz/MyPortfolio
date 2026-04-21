@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Code, Brain, Database } from 'lucide-react';
 
 import profileImg from '../assets/profile.jpg';
+import gradToga from '../assets/grad_toga_new.png';
+import gradBarong from '../assets/grad_barong_new.png';
 
 const Hero = () => {
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const images = [profileImg, gradToga, gradBarong];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImgIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="home" className="min-h-screen flex flex-col justify-center relative pt-20">
       <motion.div
@@ -36,11 +48,21 @@ const Hero = () => {
             className="relative hidden lg:block flex-shrink-0"
           >
             <div className="absolute inset-0 bg-primary/30 blur-[120px] rounded-full animate-pulse-slow" />
-            <img
-              src={profileImg}
-              alt="James Christopher Esteban"
-              className="h-[38rem] xl:h-[45rem] aspect-[1365/1348] rounded-[3rem] border-2 border-primary/40 shadow-2xl shadow-primary/30 relative z-10 object-cover hover:scale-[1.02] transition-transform duration-700 block shrink-0"
-            />
+            <div className="h-[38rem] xl:h-[45rem] aspect-[1365/1348] rounded-[3rem] border-2 border-primary/40 shadow-2xl shadow-primary/30 relative z-10 overflow-hidden hover:scale-[1.02] transition-transform duration-700 shrink-0">
+              <div
+                className="flex h-full w-full transition-transform duration-1000 ease-in-out"
+                style={{ transform: `translateX(-${currentImgIndex * 100}%)` }}
+              >
+                {images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`James Christopher Esteban ${idx}`}
+                    className="w-full h-full object-cover object-top shrink-0 block"
+                  />
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
 
@@ -51,11 +73,21 @@ const Hero = () => {
           className="relative inline-block mb-12 lg:hidden text-center w-full"
         >
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse-slow max-w-sm mx-auto" />
-          <img
-            src={profileImg}
-            alt="James Christopher Esteban"
-            className="w-full max-w-[24rem] aspect-[1365/1348] rounded-[2.5rem] border-2 border-primary/50 relative z-10 mx-auto shadow-2xl shadow-primary/20 object-cover block"
-          />
+          <div className="w-full max-w-[24rem] aspect-[1365/1348] rounded-[2.5rem] border-2 border-primary/50 relative z-10 mx-auto shadow-2xl shadow-primary/20 overflow-hidden block">
+            <div
+              className="flex h-full w-full transition-transform duration-1000 ease-in-out"
+              style={{ transform: `translateX(-${currentImgIndex * 100}%)` }}
+            >
+              {images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`James Christopher Esteban ${idx}`}
+                  className="w-full h-full object-cover object-top shrink-0 block"
+                />
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         <div className="flex flex-wrap gap-4">

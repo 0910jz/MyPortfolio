@@ -131,16 +131,17 @@ const CourseModal = ({ course, onClose }) => {
 
         {/* Panel */}
         <motion.div
-          className="relative z-10 w-full max-w-xl glass rounded-3xl overflow-hidden"
-          style={{ border: `1px solid ${course.color}40` }}
+          className="relative z-10 w-full max-w-5xl glass rounded-3xl overflow-hidden flex flex-col"
+          style={{ border: `1px solid ${course.color}40`, maxHeight: '90vh' }}
+
           initial={{ opacity: 0, scale: 0.92, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 30 }}
           transition={{ type: 'spring', stiffness: 300, damping: 28 }}
         >
-          {/* Header */}
+          {/* ── Sticky Header ── */}
           <div
-            className="relative px-8 py-6"
+            className="flex-shrink-0 px-8 py-6"
             style={{
               background: `linear-gradient(135deg, ${course.color}20 0%, transparent 70%)`,
               borderBottom: `1px solid ${course.color}25`,
@@ -169,34 +170,52 @@ const CourseModal = ({ course, onClose }) => {
             </div>
           </div>
 
-          {/* Body */}
-          <div className="px-8 py-8">
-            <div className="flex flex-col items-center justify-center text-center gap-4 py-8">
-              <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center"
-                style={{ background: `${course.color}15`, border: `1px dashed ${course.color}50` }}
-              >
-                <FolderOpen size={32} style={{ color: course.color }} />
-              </div>
+          {/* ── Scrollable Body ── */}
+          <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
+
+            {/* Section label */}
+            <div className="px-8 pt-7 pb-4 flex items-center justify-between">
               <div>
-                <h4 className="text-lg font-semibold text-white/80 mb-2">
-                  Activities Coming Soon
-                </h4>
-                <p className="text-sm text-gray-500 max-w-xs">
-                  Course activities and outputs for{' '}
-                  <span style={{ color: course.color }} className="font-medium">
-                    {course.code}
-                  </span>{' '}
-                  will be uploaded here. Check back soon!
-                </p>
+                <h4 className="text-base font-bold font-outfit text-white">Course Activities</h4>
+                <p className="text-xs text-gray-500 mt-0.5">Screenshots and outputs from this course</p>
               </div>
               <div
-                className="flex items-center gap-2 text-xs text-gray-600 mt-2 px-4 py-2 rounded-full"
-                style={{ background: 'rgba(255,255,255,0.04)' }}
+                className="flex items-center gap-2 text-xs text-gray-500 px-3 py-1.5 rounded-full"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
               >
-                <Clock size={12} />
-                <span>Content upload in progress</span>
+                <Clock size={11} />
+                <span>Uploading soon</span>
               </div>
+            </div>
+
+            {/* Activity image grid */}
+            <div className="px-8 pb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="group relative aspect-[4/3] rounded-2xl flex flex-col items-center justify-center gap-3 overflow-hidden"
+                    style={{
+                      background: `${course.color}08`,
+                      border: `1px dashed ${course.color}30`,
+                    }}
+                  >
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{ background: `radial-gradient(circle at 50% 50%, ${course.color}10 0%, transparent 70%)` }}
+                    />
+                    <FolderOpen size={28} style={{ color: `${course.color}60` }} className="relative z-10" />
+                    <span className="relative z-10 text-[11px] font-medium text-gray-600 tracking-wide">
+                      Activity {i + 1}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-center text-xs text-gray-600 mt-6">
+                Activities for{' '}
+                <span style={{ color: course.color }} className="font-semibold">{course.code}</span>{' '}
+                will be uploaded here soon.
+              </p>
             </div>
           </div>
         </motion.div>

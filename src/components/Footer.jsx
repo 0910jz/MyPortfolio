@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col items-center md:items-start">
           <a href="#home" className="text-2xl font-bold font-outfit text-gradient mb-2">
-            JE<span className="text-white">.</span>
+            JC<span className="text-white">.</span>
           </a>
           <p className="text-gray-500 text-sm">Building intelligent systems for a better future.</p>
         </div>

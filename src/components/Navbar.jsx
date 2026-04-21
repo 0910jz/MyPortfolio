@@ -26,7 +26,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass py-4 shadow-lg' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <a href="#home" className="text-2xl font-bold font-outfit text-gradient hover:scale-105 transition-transform duration-300">
-          JE<span className="text-white">.</span>
+          JC<span className="text-white">.</span>
         </a>
 
         {/* Desktop Nav */}

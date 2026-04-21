@@ -16,15 +16,15 @@ const ProjectCard = ({ project, featured = false }) => (
     <div className={`relative overflow-hidden ${featured ? 'md:w-1/2 aspect-video' : 'aspect-video'}`}>
       <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent z-10" />
       {project.image ? (
-        <img 
-          src={project.image} 
-          alt={project.title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
       ) : (
         <div className={`w-full h-full bg-gradient-to-br transition-transform duration-700 group-hover:scale-110 ${project.gradient}`} />
       )}
-      
+
       <div className="absolute bottom-4 left-6 z-20">
         <div className="flex gap-2">
           {project.tags.map(tag => (
@@ -38,7 +38,7 @@ const ProjectCard = ({ project, featured = false }) => (
       <div>
         <h3 className={`font-bold font-outfit mb-3 ${featured ? 'text-4xl' : 'text-2xl'}`}>{project.title}</h3>
         <p className="text-gray-400 mb-6 line-clamp-3 group-hover:line-clamp-none transition-all duration-300">{project.description}</p>
-        
+
         <div className="flex flex-wrap gap-4 mb-6">
           {project.tech.map(t => (
             <div key={t} className="flex items-center gap-1 text-xs text-gray-500">
@@ -61,9 +61,6 @@ const ProjectCard = ({ project, featured = false }) => (
       </div>
 
       <div className="flex items-center gap-4">
-        <a href="#" className="p-3 glass rounded-xl hover:bg-primary/20 hover:text-primary transition-all group/btn">
-          <Github size={20} className="group-hover/btn:scale-110 transition-transform" />
-        </a>
         <a href="#" className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium">
           Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
         </a>
@@ -78,7 +75,7 @@ const Projects = () => {
     title: 'BrainTracs',
     subtitle: 'AI/ML Simulation Environment',
     image: braintracsImg,
-    description: 'An advanced AI/ML simulation environment leveraging Deep Q-Learning (DQL) and Neural Networks to optimize traffic systems. Integrated with SUMO (Simulation of Urban MObility), this environment provides a robust framework for training agents in complex, multi-lane scenarios.',
+    description: 'A thesis project that highlights advanced AI/ML simulation environment leveraging Deep Q-Learning (DQL) and Neural Networks to optimize traffic systems. Integrated with SUMO (Simulation of Urban MObility), this environment provides a robust framework for training agents in complex, multi-lane scenarios.',
     tech: ['Python', 'TensorFlow', 'DQL', 'Neural Networks', 'SUMO'],
     tags: ['AI / ML', 'SIMULATION'],
     gradient: 'from-pink-600 via-purple-600 to-indigo-600',
