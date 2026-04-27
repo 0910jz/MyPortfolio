@@ -7,15 +7,36 @@ import gradToga from '../assets/grad_toga_new.png';
 import gradBarong from '../assets/grad_barong_new.png';
 
 const Hero = () => {
-  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const images = [profileImg, gradToga, gradBarong];
+  const extendedImages = [...images, images[0]];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImgIndex((prev) => (prev + 1) % images.length);
+      setCurrentIndex((prev) => prev + 1);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (currentIndex === images.length) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(0);
+      }, 1000);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, images.length]);
+
+  useEffect(() => {
+    if (currentIndex === 0 && !isTransitioning) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(true);
+      }, 50);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, isTransitioning]);
 
   return (
     <section id="home" className="min-h-screen flex flex-col justify-center relative pt-20">
@@ -50,10 +71,10 @@ const Hero = () => {
             <div className="absolute inset-0 bg-primary/30 blur-[120px] rounded-full animate-pulse-slow" />
             <div className="h-[38rem] xl:h-[45rem] aspect-[1365/1348] rounded-[3rem] border-2 border-primary/40 shadow-2xl shadow-primary/30 relative z-10 overflow-hidden hover:scale-[1.02] transition-transform duration-700 shrink-0">
               <div
-                className="flex h-full w-full transition-transform duration-1000 ease-in-out"
-                style={{ transform: `translateX(-${currentImgIndex * 100}%)` }}
+                className={`flex h-full w-full ${isTransitioning ? 'transition-transform duration-1000 ease-in-out' : ''}`}
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
               >
-                {images.map((img, idx) => (
+                {extendedImages.map((img, idx) => (
                   <img
                     key={idx}
                     src={img}
@@ -75,10 +96,10 @@ const Hero = () => {
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse-slow max-w-sm mx-auto" />
           <div className="w-full max-w-[24rem] aspect-[1365/1348] rounded-[2.5rem] border-2 border-primary/50 relative z-10 mx-auto shadow-2xl shadow-primary/20 overflow-hidden block">
             <div
-              className="flex h-full w-full transition-transform duration-1000 ease-in-out"
-              style={{ transform: `translateX(-${currentImgIndex * 100}%)` }}
+              className={`flex h-full w-full ${isTransitioning ? 'transition-transform duration-1000 ease-in-out' : ''}`}
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {images.map((img, idx) => (
+              {extendedImages.map((img, idx) => (
                 <img
                   key={idx}
                   src={img}

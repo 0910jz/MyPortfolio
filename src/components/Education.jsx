@@ -224,8 +224,6 @@ const CourseModal = ({ course, onClose }) => {
   );
 };
 
-// ─── Course Pill ─────────────────────────────────────────────────────────────
-
 const CoursePill = ({ course, color, glow, onClick }) => (
   <motion.button
     onClick={onClick}

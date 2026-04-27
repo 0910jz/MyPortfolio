@@ -101,7 +101,7 @@ const Projects = () => {
       id: 'schoolaide',
       title: 'SchoolAide Events',
       image: schoolaideImg,
-      description: 'A comprehensive campus event management module featuring real-time calendars, event registration, and role-based access control. Built with a focus on seamless student engagement and administrative efficiency.',
+      description: 'A comprehensive campus event management module made during my internship at Rakso CT, featuring real-time calendars, event registration, and role-based access control. Built with a focus on seamless student engagement and administrative efficiency.',
       tech: ['PHP Blade', 'TypeScript', 'Tailwind', 'SQLite'],
       tags: ['FULL STACK', 'ACADEMIC'],
       gradient: 'from-indigo-600 to-purple-600'

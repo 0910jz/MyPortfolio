@@ -14,9 +14,9 @@ const Contact = () => {
 
     const formData = new FormData(form.current);
     const data = {
-      service_id: 'service_s8cmkiq',
-      template_id: 'template_dwrn48o',
-      user_id: 'XPzetGgpkGQAqV3le',
+      service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      user_id: import.meta.env.VITE_EMAILJS_USER_ID,
       template_params: {
         from_name: formData.get('from_name'),
         from_email: formData.get('from_email'),
@@ -139,7 +139,6 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Right Side: Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -199,7 +198,6 @@ const Contact = () => {
                 )}
               </button>
 
-              {/* Status Messages */}
               <AnimatePresence>
                 {status === 'success' && (
                   <motion.div
