@@ -10,7 +10,7 @@ const ProjectCard = ({ project, featured = false }) => (
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5 }}
+    transition={{ duration: 1, delay: 0.3 }}
     className={`glass rounded-3xl overflow-hidden group hover:border-primary/50 transition-all duration-500 flex flex-col ${featured ? 'md:flex-row' : ''}`}
   >
     <div className={`relative overflow-hidden ${featured ? 'md:w-1/2 aspect-video' : 'aspect-video'}`}>

@@ -1,0 +1,1 @@
+/* ESTEBAN, JAMES CHRISTOPHER C., CS1-1, 03/14/23, SlideNumber22.cpp*/#include <iostream>using namespace std;int main(){int secondArray[5]={10,0,20,0,30};for(int i=0; i<5; i++){cout<<secondArray[i]<<"\n";}return 0;} 

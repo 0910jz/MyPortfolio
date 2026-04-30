@@ -1,0 +1,1 @@
+/* ESTEBAN, JAMES CHRISTOPHER C., CS1-1, 03/14/23, SlideNumber23.cpp*/#include <iostream>using namespace std;int main() { int average, grades[3];  grades[0] = 80;  grades[1]= 70;  grades[2] = 90;  average = (grades[0] + grades[1] + grades[2]) / 3;  cout  <<"The average of the 3 grades is: " << average << endl;  return 0;} 

@@ -3,8 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, BookOpen, Code2, Cpu, Brain, Network,
   Shield, Layers, BarChart2, GraduationCap,
-  Globe, ChevronRight, FolderOpen, Clock
+  Globe, ChevronRight, FolderOpen, Clock,
+  FileText, Image as ImageIcon, Download
 } from 'lucide-react';
+
+const allAssets = import.meta.glob('../assets/**/*', { eager: true, as: 'url' });
 
 // ─── Course Data ────────────────────────────────────────────────────────────
 
@@ -113,6 +116,29 @@ const allCourses = categories.flatMap((cat) =>
 const CourseModal = ({ course, onClose }) => {
   if (!course) return null;
 
+  const courseFolderPattern = `../assets/${course.code.toLowerCase()}/`;
+  const courseAssets = Object.entries(allAssets)
+    .filter(([path]) => path.toLowerCase().includes(courseFolderPattern.toLowerCase()))
+    .map(([path, url]) => {
+      const parts = path.split('/');
+      const fileName = parts[parts.length - 1];
+      const extension = fileName.split('.').pop().toLowerCase();
+      const subPathIndex = parts.findIndex(p => p.toLowerCase() === course.code.toLowerCase());
+      const subFolderParts = parts.slice(subPathIndex + 1, -1);
+      const rawSubFolder = subFolderParts.length > 0 ? subFolderParts.join(' / ') : 'General Files';
+      const subFolder = rawSubFolder.replace(/_/g, ' ');
+      
+      return { path, url, fileName, extension, subFolder };
+    });
+
+  const groupedAssets = courseAssets.reduce((acc, asset) => {
+    if (!acc[asset.subFolder]) acc[asset.subFolder] = [];
+    acc[asset.subFolder].push(asset);
+    return acc;
+  }, {});
+  
+  const hasAssets = courseAssets.length > 0;
+
   return (
     <AnimatePresence>
       <motion.div
@@ -177,45 +203,94 @@ const CourseModal = ({ course, onClose }) => {
             <div className="px-8 pt-7 pb-4 flex items-center justify-between">
               <div>
                 <h4 className="text-base font-bold font-outfit text-white">Course Activities</h4>
-                <p className="text-xs text-gray-500 mt-0.5">Screenshots and outputs from this course</p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {hasAssets ? `Found ${courseAssets.length} files` : 'Screenshots and outputs from this course'}
+                </p>
               </div>
-              <div
-                className="flex items-center gap-2 text-xs text-gray-500 px-3 py-1.5 rounded-full"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
-              >
-                <Clock size={11} />
-                <span>Uploading soon</span>
-              </div>
+              {!hasAssets && (
+                <div
+                  className="flex items-center gap-2 text-xs text-gray-500 px-3 py-1.5 rounded-full"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+                >
+                  <Clock size={11} />
+                  <span>Uploading soon</span>
+                </div>
+              )}
             </div>
 
             {/* Activity image grid */}
             <div className="px-8 pb-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="group relative aspect-[4/3] rounded-2xl flex flex-col items-center justify-center gap-3 overflow-hidden"
-                    style={{
-                      background: `${course.color}08`,
-                      border: `1px dashed ${course.color}30`,
-                    }}
-                  >
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{ background: `radial-gradient(circle at 50% 50%, ${course.color}10 0%, transparent 70%)` }}
-                    />
-                    <FolderOpen size={28} style={{ color: `${course.color}60` }} className="relative z-10" />
-                    <span className="relative z-10 text-[11px] font-medium text-gray-600 tracking-wide">
-                      Activity {i + 1}
-                    </span>
+              {!hasAssets ? (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="group relative aspect-[4/3] rounded-2xl flex flex-col items-center justify-center gap-3 overflow-hidden"
+                        style={{
+                          background: `${course.color}08`,
+                          border: `1px dashed ${course.color}30`,
+                        }}
+                      >
+                        <div
+                          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          style={{ background: `radial-gradient(circle at 50% 50%, ${course.color}10 0%, transparent 70%)` }}
+                        />
+                        <FolderOpen size={28} style={{ color: `${course.color}60` }} className="relative z-10" />
+                        <span className="relative z-10 text-[11px] font-medium text-gray-600 tracking-wide">
+                          Activity {i + 1}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <p className="text-center text-xs text-gray-600 mt-6">
-                Activities for{' '}
-                <span style={{ color: course.color }} className="font-semibold">{course.code}</span>{' '}
-                will be uploaded here soon.
-              </p>
+                  <p className="text-center text-xs text-gray-600 mt-6">
+                    Activities for{' '}
+                    <span style={{ color: course.color }} className="font-semibold">{course.code}</span>{' '}
+                    will be uploaded here soon.
+                  </p>
+                </>
+              ) : (
+                <div className="flex flex-col gap-6">
+                  {Object.entries(groupedAssets).map(([folder, files]) => (
+                    <div key={folder}>
+                      <h5 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
+                        <FolderOpen size={16} style={{ color: course.color }} />
+                        {folder}
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {files.map((file, i) => (
+                          <a
+                            key={i}
+                            href={file.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group relative flex items-center gap-3 p-3 rounded-xl transition-all"
+                            style={{
+                              background: 'rgba(255,255,255,0.03)',
+                              border: '1px solid rgba(255,255,255,0.07)',
+                            }}
+                          >
+                            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${course.color}15` }}>
+                              {file.extension === 'heic' || ['png', 'jpg', 'jpeg'].includes(file.extension) ? (
+                                <ImageIcon size={20} style={{ color: course.color }} />
+                              ) : file.extension === 'c' || file.extension === 'cpp' ? (
+                                <Code2 size={20} style={{ color: course.color }} />
+                              ) : (
+                                <FileText size={20} style={{ color: course.color }} />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-medium text-white truncate">{file.fileName}</p>
+                              <p className="text-[10px] text-gray-500 uppercase tracking-wider">{file.extension} File</p>
+                            </div>
+                            <Download size={14} className="text-gray-600 group-hover:text-white transition-colors" />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </motion.div>

@@ -1,0 +1,1 @@
+/* ESTEBAN, JAMES CHRISTOPHER C., CS1-1, 03/14/23, SlideNumber19.cpp*/#include <iostream> using namespace std; int main(){ int firstArray[5] = {11, 20, 13, 4, 75}; cout<< firstArray[0]<<endl; cout<< firstArray[1]<<endl; cout<< firstArray[2]<<endl; cout<< firstArray[3]<<endl; cout<< firstArray[4]<<endl; return 0; } 

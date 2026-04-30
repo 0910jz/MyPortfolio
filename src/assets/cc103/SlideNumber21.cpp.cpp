@@ -1,0 +1,1 @@
+/* ESTEBAN, JAMES CHRISTOPHER C., CS1-1, 03/14/23, SlideNumber21.cpp*/#include <iostream> using namespace std; int main(){ int firstArray[] = {11, 20, 13, 4, 75}; int n=0; while(n<=4){ cout<<firstArray[n]<<endl; n++; } return 0; }  
