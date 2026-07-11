@@ -1,47 +1,47 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Github, Linkedin, Send, Facebook, Instagram, MessageSquare, CheckCircle2, AlertCircle, Copy } from 'lucide-react';
 
 const Contact = () => {
-  const form = useRef();
+  const form = useRef(null);
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState(null); // 'success' | 'error' | null
+  const [statusMessage, setStatusMessage] = useState('');
+
+  useEffect(() => {
+    const publicKey = import.meta.env.VITE_EMAILJS_USER_ID;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    }
+  }, []);
 
   const sendEmail = async (e) => {
     e.preventDefault();
     setIsSending(true);
     setStatus(null);
+    setStatusMessage('');
 
-    const formData = new FormData(form.current);
-    const data = {
-      service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-      template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-      user_id: import.meta.env.VITE_EMAILJS_USER_ID,
-      template_params: {
-        from_name: formData.get('from_name'),
-        from_email: formData.get('from_email'),
-        message: formData.get('message'),
-      },
-    };
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_USER_ID;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus('error');
+      setStatusMessage('Email service is not configured yet. Please email me directly at jcce0932@gmail.com.');
+      setIsSending(false);
+      return;
+    }
 
     try {
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        form.current.reset();
-      } else {
-        setStatus('error');
-      }
+      await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
+      setStatus('success');
+      setStatusMessage('Message sent successfully! I will get back to you soon.');
+      form.current.reset();
     } catch (error) {
       console.error('Email error:', error);
       setStatus('error');
+      setStatusMessage('Something went wrong while sending the message. Please try again later or email me directly at jcce0932@gmail.com.');
     } finally {
       setIsSending(false);
     }
@@ -206,7 +206,7 @@ const Contact = () => {
                     exit={{ opacity: 0 }}
                     className="flex items-center gap-2 text-green-400 text-sm justify-center py-2"
                   >
-                    <CheckCircle2 size={16} /> Message sent successfully!
+                    <CheckCircle2 size={16} /> {statusMessage}
                   </motion.div>
                 )}
                 {status === 'error' && (
@@ -216,7 +216,7 @@ const Contact = () => {
                     exit={{ opacity: 0 }}
                     className="flex items-center gap-2 text-red-400 text-sm justify-center py-2"
                   >
-                    <AlertCircle size={16} /> Something went wrong. Please try again.
+                    <AlertCircle size={16} /> {statusMessage}
                   </motion.div>
                 )}
               </AnimatePresence>
