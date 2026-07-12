@@ -10,7 +10,7 @@ const Contact = () => {
   const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
-    const publicKey = import.meta.env.VITE_EMAILJS_USER_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_USER_ID || 'XPzetGgpkGQAqV3le';
     if (publicKey) {
       emailjs.init(publicKey);
     }
@@ -24,9 +24,9 @@ const Contact = () => {
     setStatus(null);
     setStatusMessage('');
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_USER_ID;
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_s8cmkiq';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_dwrn48o';
+    const publicKey = import.meta.env.VITE_EMAILJS_USER_ID || 'XPzetGgpkGQAqV3le';
 
     if (!serviceId || !templateId || !publicKey) {
       setStatus('error');
@@ -36,12 +36,22 @@ const Contact = () => {
     }
 
     const formData = new FormData(form.current);
+    const name = formData.get('from_name')?.toString().trim() || '';
+    const email = formData.get('from_email')?.toString().trim() || '';
+    const message = formData.get('message')?.toString().trim() || '';
     const templateParams = {
-      from_name: formData.get('from_name')?.toString() || '',
-      from_email: formData.get('from_email')?.toString() || '',
-      message: formData.get('message')?.toString() || '',
-      reply_to: formData.get('from_email')?.toString() || '',
+      from_name: name,
+      name,
+      user_name: name,
+      from_email: email,
+      email,
+      user_email: email,
+      message,
+      body: message,
+      reply_to: email,
+      subject: `New message from ${name}`,
       to_name: 'Esteban James Christopher',
+      to_email: 'estebanjameschristopher@gmail.com',
     };
 
     try {
