@@ -28,7 +28,7 @@ const Contact = () => {
 
     if (!serviceId || !templateId || !publicKey) {
       setStatus('error');
-      setStatusMessage('Email service is not configured yet. Please email me directly at jcce0932@gmail.com.');
+      setStatusMessage('Email service is not configured yet. Please email me directly at estebanjameschristopher@gmail.com.');
       setIsSending(false);
       return;
     }
@@ -41,14 +41,14 @@ const Contact = () => {
     } catch (error) {
       console.error('Email error:', error);
       setStatus('error');
-      setStatusMessage('Something went wrong while sending the message. Please try again later or email me directly at jcce0932@gmail.com.');
+      setStatusMessage('Something went wrong while sending the message. Please try again later or email me directly at estebanjameschristopher@gmail.com.');
     } finally {
       setIsSending(false);
     }
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('jcce0932@gmail.com');
+    navigator.clipboard.writeText('estebanjameschristopher@gmail.com');
     // Optional: Add a temporary "Copied!" state
   };
 
@@ -105,7 +105,7 @@ const Contact = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Email Me</p>
-                    <p className="text-lg font-medium text-gray-200">jcce0932@gmail.com</p>
+                    <p className="text-lg font-medium text-gray-200">estebanjameschristopher@gmail.com</p>
                   </div>
                   <button 
                     onClick={copyEmail}
