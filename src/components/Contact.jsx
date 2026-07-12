@@ -18,6 +18,8 @@ const Contact = () => {
 
   const sendEmail = async (e) => {
     e.preventDefault();
+    if (!form.current) return;
+
     setIsSending(true);
     setStatus(null);
     setStatusMessage('');
@@ -33,15 +35,29 @@ const Contact = () => {
       return;
     }
 
+    const formData = new FormData(form.current);
+    const templateParams = {
+      from_name: formData.get('from_name')?.toString() || '',
+      from_email: formData.get('from_email')?.toString() || '',
+      message: formData.get('message')?.toString() || '',
+      reply_to: formData.get('from_email')?.toString() || '',
+      to_name: 'Esteban James Christopher',
+    };
+
     try {
-      await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
-      setStatus('success');
-      setStatusMessage('Message sent successfully! I will get back to you soon.');
-      form.current.reset();
+      const result = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      if (result?.status === 200) {
+        setStatus('success');
+        setStatusMessage('Message sent successfully! I will get back to you soon.');
+        form.current.reset();
+      } else {
+        throw new Error(`Unexpected EmailJS status: ${result?.status}`);
+      }
     } catch (error) {
+      const errorText = error?.text || error?.message || 'Unknown error';
       console.error('Email error:', error);
       setStatus('error');
-      setStatusMessage('Something went wrong while sending the message. Please try again later or email me directly at estebanjameschristopher@gmail.com.');
+      setStatusMessage(`Something went wrong while sending the message. ${errorText}. Please try again later or email me directly at estebanjameschristopher@gmail.com.`);
     } finally {
       setIsSending(false);
     }
