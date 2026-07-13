@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Cpu, Layers } from 'lucide-react';
 import braintracsImg from '../assets/braintracs.png';
-import ubshoppeImg from '../assets/ubshoppe.png';
 import schoolaideImg from '../assets/schoolaide.png';
 
 const ProjectCard = ({ project, featured = false }) => (
@@ -89,22 +88,14 @@ const Projects = () => {
 
   const otherProjects = [
     {
-      id: 'ubshoppe',
-      title: 'UB Shoppe',
-      image: ubshoppeImg,
-      description: 'A full-stack inventory and ordering management system designed for students and admins. Features role-based dashboards, MySQL integration, and a seamless checkout experience with diverse payment options.',
-      tech: ['Python', 'MySQL', 'Tkinter GUI'],
-      tags: ['SYSTEMS', 'DATABASE'],
-      gradient: 'from-cyan-600 to-blue-600'
-    },
-    {
       id: 'schoolaide',
-      title: 'SchoolAide Events',
+      title: 'SchoolAide Events Module',
       image: schoolaideImg,
       description: 'A comprehensive campus event management module made during my internship at Rakso CT, featuring real-time calendars, event registration, and role-based access control. Built with a focus on seamless student engagement and administrative efficiency.',
       tech: ['PHP Blade', 'TypeScript', 'Tailwind', 'SQLite'],
       tags: ['FULL STACK', 'ACADEMIC'],
-      gradient: 'from-indigo-600 to-purple-600'
+      gradient: 'from-indigo-600 to-purple-600',
+      featured: true
     }
   ];
 
@@ -123,7 +114,9 @@ const Projects = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {otherProjects.map(project => (
-          <ProjectCard key={project.id} project={project} />
+          <div key={project.id} className={project.featured ? 'md:col-span-2' : ''}>
+            <ProjectCard project={project} featured={project.featured ?? false} />
+          </div>
         ))}
         {/* Empty slot placeholder for future projects */}
         <div className="glass rounded-3xl border-dashed border-2 border-white/5 flex flex-col items-center justify-center p-12 text-center group cursor-pointer hover:border-primary/30 transition-colors">
