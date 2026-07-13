@@ -6,6 +6,7 @@ import About from './components/About';
 import Projects from './components/Projects';
 import TechStack from './components/TechStack';
 import Education from './components/Education';
+import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -35,9 +36,10 @@ function App() {
       <main>
         <Hero />
         <About />
-        <Projects />
-        <TechStack />
         <Education />
+        <TechStack />
+        <Projects />
+        <Certifications />
         <Contact />
       </main>
       <Footer />
