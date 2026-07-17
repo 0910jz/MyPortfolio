@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Cpu, Layers } from 'lucide-react';
 import braintracsImg from '../assets/braintracs.png';
+import braintracsPreviewVideo from '../assets/braintracs-preview.mp4';
 import schoolaideImg from '../assets/schoolaide.png';
 
-const ProjectCard = ({ project, featured = false }) => (
+const ProjectCard = ({ project, featured = false, onOpenPreview }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -60,20 +61,33 @@ const ProjectCard = ({ project, featured = false }) => (
       </div>
 
       <div className="flex items-center gap-4">
-        <a href="#" className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium">
-          Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-        </a>
+        {project.previewVideo ? (
+          <button
+            type="button"
+            onClick={() => onOpenPreview?.(project)}
+            className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium"
+          >
+            Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+          </button>
+        ) : (
+          <a href="#" className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium">
+            Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+          </a>
+        )}
       </div>
     </div>
   </motion.div>
 );
 
 const Projects = () => {
+  const [activePreviewProject, setActivePreviewProject] = useState(null);
+
   const featuredProject = {
     id: 'braintracs',
     title: 'BrainTracs',
     subtitle: 'AI/ML Simulation Environment',
     image: braintracsImg,
+    previewVideo: braintracsPreviewVideo,
     description: 'A thesis project that highlights advanced AI/ML simulation environment leveraging Deep Q-Learning (DQL) and Neural Networks to optimize traffic systems. Integrated with SUMO (Simulation of Urban MObility), this environment provides a robust framework for training agents in complex, multi-lane scenarios.',
     tech: ['Python', 'TensorFlow', 'DQL', 'Neural Networks', 'SUMO'],
     tags: ['AI / ML', 'SIMULATION'],
@@ -109,7 +123,11 @@ const Projects = () => {
       </div>
 
       <div className="flex flex-col gap-8 mb-12">
-        <ProjectCard project={featuredProject} featured={true} />
+        <ProjectCard
+          project={featuredProject}
+          featured={true}
+          onOpenPreview={setActivePreviewProject}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -127,6 +145,39 @@ const Projects = () => {
           <p className="text-gray-600 mt-2">Currently developing something amazing...</p>
         </div>
       </div>
+
+      {activePreviewProject && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={() => setActivePreviewProject(null)}
+        >
+          <div
+            className="w-full max-w-5xl rounded-3xl border border-white/10 bg-[#060816]/95 p-4 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-sm uppercase tracking-[0.3em] text-primary">Preview</p>
+                <h3 className="text-2xl font-bold font-outfit">{activePreviewProject.title}</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActivePreviewProject(null)}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300 transition hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
+              <video controls autoPlay playsInline className="h-full w-full object-contain">
+                <source src={activePreviewProject.previewVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
