@@ -4,6 +4,7 @@ import { ExternalLink, Github, Code, Cpu, Layers } from 'lucide-react';
 import braintracsImg from '../assets/braintracs.png';
 import braintracsPreviewVideo from '../assets/braintracs-preview.mp4';
 import schoolaideImg from '../assets/schoolaide.png';
+import one900 from '../assets/one900.png';
 
 const ProjectCard = ({ project, featured = false, onOpenPreview }) => (
   <motion.div
@@ -70,7 +71,12 @@ const ProjectCard = ({ project, featured = false, onOpenPreview }) => (
             Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
           </button>
         ) : (
-          <a href="#" className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium">
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium"
+          >
             Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
           </a>
         )}
@@ -104,12 +110,23 @@ const Projects = () => {
     {
       id: 'schoolaide',
       title: 'SchoolAide Events Module',
+      link: '#',
       image: schoolaideImg,
       description: 'A comprehensive campus event management module made during my internship at Rakso CT, featuring real-time calendars, event registration, and role-based access control. Built with a focus on seamless student engagement and administrative efficiency.',
       tech: ['HTML', 'CSS', 'JavaScript', 'Laravel', 'PHP Blade',  'TypeScript', 'Tailwind CSS', 'SQLite', 'Vite'],
       tags: ['FULL STACK', 'ACADEMIC'],
       gradient: 'from-indigo-600 to-purple-600',
       featured: true
+    },
+    {
+      id: 'one900-architects',
+      title: 'ONE900 Architects & Builders',
+      link: 'https://one900-architects.vercel.app/',
+      image: one900,
+      description: 'A responsive portfolio website for a Batangas-based architecture and design-build studio, presenting its profile, services, project archive, team, and contact channels in a refined visual experience.',
+      tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive Design'],
+      tags: ['WEB DESIGN', 'ARCHITECTURE'],
+      gradient: 'from-amber-700 via-orange-600 to-rose-600'
     }
   ];
 
