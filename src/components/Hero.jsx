@@ -27,9 +27,10 @@ const Hero = () => {
         transition={{ duration: 0.65 }}
       >
         <p className="hero-eyebrow"><span className="availability-dot" /> Computer Science · Philippines</p>
-        <p className="hero-intro">Hello, I’m James Christopher</p>
-        <h1 className="hero-title">A little<br /><span>curious.</span></h1>
-        <p className="hero-role">Developer <i>✳</i> AI enthusiast <i>✳</i> data explorer</p>
+        <h1 className="hero-title hero-name">James Christopher<br /><span>Esteban.</span></h1>
+        <p className="hero-role">
+          <span>Developer</span><i>✳</i><span>AI Enthusiast</span><i>✳</i><span>Data Explorer</span>
+        </p>
         <p className="hero-description">
           I turn curious ideas into useful things for the web — from thoughtful interfaces to AI-powered experiments.
           Currently exploring what happens when good code meets a little imagination.

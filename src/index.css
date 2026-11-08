@@ -207,12 +207,6 @@ h3,
   box-shadow: 0 0 12px rgb(137 214 164 / 65%);
 }
 
-.hero-intro {
-  margin: 42px 0 0;
-  color: var(--text);
-  font-size: clamp(16px, 2vw, 20px);
-}
-
 .hero-title {
   margin: 0;
   font-size: clamp(76px, 10.1vw, 132px);
@@ -222,21 +216,34 @@ h3,
   text-transform: uppercase;
 }
 
+.hero-name {
+  margin-top: 40px;
+  font-size: clamp(57px, 6vw, 76px);
+  letter-spacing: -0.025em;
+  line-height: 0.88;
+  white-space: nowrap;
+}
+
 .hero-title span {
   color: var(--accent);
 }
 
 .hero-role {
-  margin-top: 29px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 10px;
+  margin-top: 27px;
   color: var(--text);
-  font-size: 12px;
-  letter-spacing: 0.11em;
+  font-size: clamp(13px, 1.45vw, 17px);
+  letter-spacing: 0.08em;
+  line-height: 1.4;
 }
 
 .hero-role i {
-  padding: 0 7px;
   color: var(--accent);
   font-style: normal;
+  font-size: 12px;
 }
 
 .hero-description {
@@ -877,12 +884,9 @@ h3,
     padding-bottom: 65px;
   }
 
-  .hero-title {
-    font-size: clamp(76px, 17vw, 118px);
-  }
-
-  .hero-intro {
+  .hero-name {
     margin-top: 34px;
+    font-size: clamp(56px, 11.6vw, 80px);
   }
 
   .hero-portrait-wrap {
@@ -969,8 +973,8 @@ h3,
 }
 
 @media (max-width: 520px) {
-  .hero-title {
-    font-size: clamp(70px, 18vw, 94px);
+  .hero-name {
+    font-size: clamp(49px, 11.9vw, 62px);
   }
 
   .hero-description {
