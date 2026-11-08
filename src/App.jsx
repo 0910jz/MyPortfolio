@@ -1,44 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
-import TechStack from './components/TechStack';
+import TechStack, { skillTickerItems } from './components/TechStack';
 import Education from './components/Education';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
+function SkillCarousel() {
+  return (
+    <div className="skill-ticker" role="region" aria-label={`Moving technology carousel, ${skillTickerItems.length} skills`}>
+      <div className="skill-ticker-viewport">
+        <div className="skill-ticker-track">
+          {[...skillTickerItems, ...skillTickerItems].map((skill, index) => (
+            <span key={`${skill}-${index}`} aria-hidden={index >= skillTickerItems.length}>
+              {skill}<i aria-hidden="true">✳</i>
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
-  useEffect(() => {
-    // Smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-  }, []);
+  const [theme, setTheme] = useState('dark');
 
   return (
-    <div className="min-h-screen bg-dark text-white selection:bg-primary selection:text-white">
-      {/* Background Glows */}
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 blur-[120px] rounded-full" />
-        <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-tertiary/5 blur-[100px] rounded-full" />
-      </div>
-
-      <Navbar />
-      <main>
+    <div className="portfolio-app" data-theme={theme}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <div className="ambient-glow" aria-hidden="true" />
+      <Navbar theme={theme} onToggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} />
+      <main id="main-content">
         <Hero />
+        <SkillCarousel />
+        <Projects />
         <About />
         <Education />
         <TechStack />
-        <Projects />
         <Certifications />
         <Contact />
       </main>

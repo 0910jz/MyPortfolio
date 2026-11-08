@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#ff007f", // Vibrant Pink
-        secondary: "#00f0ff", // Neon Cyan
-        tertiary: "#7000ff", // Deep Purple
-        dark: "#0a0a0a",
+        primary: "rgb(var(--primary-rgb) / <alpha-value>)",
+        secondary: "rgb(var(--secondary-rgb) / <alpha-value>)",
+        tertiary: "rgb(var(--tertiary-rgb) / <alpha-value>)",
+        dark: "rgb(var(--dark-rgb) / <alpha-value>)",
         glass: "rgba(255, 255, 255, 0.05)",
       },
       fontFamily: {

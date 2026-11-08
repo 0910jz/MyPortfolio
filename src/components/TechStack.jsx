@@ -40,6 +40,8 @@ const categories = [
   },
 ];
 
+export const skillTickerItems = [...new Set(categories.flatMap((category) => category.skills))];
+
 const spotlightTools = [
   { name: 'React', short: 'Re', color: '#00f0ff', logo: { slug: 'react', color: '61DAFB' }, x: 310 },
   { name: 'TypeScript', short: 'TS', color: '#3178c6', logo: { slug: 'typescript', color: '3178C6' }, x: 370 },

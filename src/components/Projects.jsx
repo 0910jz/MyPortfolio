@@ -1,200 +1,175 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Github, Code, Cpu, Layers } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowUpRight, Play, X } from 'lucide-react';
 import braintracsImg from '../assets/braintracs.png';
 import braintracsPreviewVideo from '../assets/braintracs-preview.mp4';
 import schoolaideImg from '../assets/schoolaide.png';
 import one900 from '../assets/one900.png';
 
-const ProjectCard = ({ project, featured = false, onOpenPreview }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 1, delay: 0.3 }}
-    className={`glass rounded-3xl overflow-hidden group hover:border-primary/50 transition-all duration-500 flex flex-col ${featured ? 'md:flex-row' : ''}`}
+const filters = ['All', 'Academic', 'Internship', 'Freelance'];
+
+const projects = [
+  {
+    id: 'braintracs',
+    title: 'BrainTracs',
+    subtitle: 'AI / ML · Thesis project',
+    category: 'Academic',
+    image: braintracsImg,
+    previewVideo: braintracsPreviewVideo,
+    description: 'An AI traffic-simulation environment using Deep Q-Learning and neural networks to explore smarter traffic flow. Built around SUMO, with custom state processing and reward systems.',
+    tech: ['Python', 'TensorFlow', 'DQL', 'SUMO'],
+    features: [
+      'Deep Q-Learning agent for adaptive traffic control',
+      'SUMO simulation for complex, multi-lane scenarios',
+      'Neural-network state processing and reward tuning',
+    ],
+    accent: 'coral',
+  },
+  {
+    id: 'schoolaide',
+    title: 'SchoolAide Events',
+    subtitle: 'Full stack · Internship',
+    category: 'Internship',
+    image: schoolaideImg,
+    description: 'A campus event-management experience with calendars, event registration, and role-based access — designed to make it easier for students and administrators to stay in sync.',
+    tech: ['Laravel', 'TypeScript', 'Tailwind CSS', 'SQLite'],
+    accent: 'violet',
+  },
+  {
+    id: 'one900-architects',
+    title: 'ONE900 Architects',
+    subtitle: 'Web design · Freelance',
+    category: 'Freelance',
+    image: one900,
+    link: 'https://one900-architects.vercel.app/',
+    description: 'A responsive portfolio for a Batangas architecture studio, bringing its projects, services, and team together in a polished digital home.',
+    tech: ['React', 'Vite', 'Tailwind CSS'],
+    accent: 'yellow',
+  },
+];
+
+const ProjectCard = ({ project, index, onOpenPreview }) => (
+  <motion.article
+    layout
+    initial={{ opacity: 0, y: 18 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 10 }}
+    transition={{ duration: 0.32, delay: index * 0.05 }}
+    className={`project-card project-card-${project.accent}${index === 0 ? ' project-card-featured' : ''}`}
   >
-    <div className={`relative overflow-hidden ${featured ? 'md:w-1/2 aspect-video' : 'aspect-video'}`}>
-      <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent z-10" />
-      {project.image ? (
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-      ) : (
-        <div className={`w-full h-full bg-gradient-to-br transition-transform duration-700 group-hover:scale-110 ${project.gradient}`} />
-      )}
-
-      <div className="absolute bottom-4 left-6 z-20">
-        <div className="flex gap-2">
-          {project.tags.map(tag => (
-            <span key={tag} className="text-[10px] uppercase font-bold tracking-widest px-2 py-1 bg-white/10 backdrop-blur-md rounded-md border border-white/10">{tag}</span>
-          ))}
-        </div>
-      </div>
+    <div className="project-image-wrap">
+      <img src={project.image} alt={`${project.title} project preview`} loading="lazy" />
+      <span className="project-index">0{index + 1}</span>
+      <span className="project-category">{project.category}</span>
     </div>
-
-    <div className={`p-8 flex flex-col justify-between ${featured ? 'md:w-1/2' : ''}`}>
+    <div className="project-content">
       <div>
-        <h3 className={`font-bold font-outfit mb-3 ${featured ? 'text-4xl' : 'text-2xl'}`}>{project.title}</h3>
-        <p className="text-gray-400 mb-6 line-clamp-3 group-hover:line-clamp-none transition-all duration-300">{project.description}</p>
-
-        <div className="flex flex-wrap gap-4 mb-6">
-          {project.tech.map(t => (
-            <div key={t} className="flex items-center gap-1 text-xs text-gray-500">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              {t}
-            </div>
-          ))}
+        <p className="project-subtitle">{project.subtitle}</p>
+        <h3>{project.title}</h3>
+        <p className="project-description">{project.description}</p>
+        <div className="project-tech">
+          {project.tech.map((item) => <span key={item}>{item}</span>)}
         </div>
-
-        {featured && project.features && (
-          <ul className="mb-6 space-y-2">
-            {project.features.map((f, i) => (
-              <li key={i} className="text-sm text-gray-400 flex items-start gap-2">
-                <div className="mt-1.5 w-1 h-1 rounded-full bg-secondary" />
-                {f}
-              </li>
-            ))}
+        {project.features && (
+          <ul className="project-features">
+            {project.features.map((feature) => <li key={feature}>{feature}</li>)}
           </ul>
         )}
       </div>
-
-      <div className="flex items-center gap-4">
-        {project.previewVideo ? (
-          <button
-            type="button"
-            onClick={() => onOpenPreview?.(project)}
-            className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium"
-          >
-            Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-          </button>
-        ) : (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 px-6 py-3 glass rounded-xl hover:bg-secondary/20 hover:text-secondary transition-all group/btn font-medium"
-          >
-            Live Demo <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-          </a>
-        )}
-      </div>
+      {project.previewVideo ? (
+        <button type="button" className="project-link" onClick={() => onOpenPreview(project)}>
+          <Play size={15} fill="currentColor" /> Watch the demo
+        </button>
+      ) : project.link ? (
+        <a className="project-link" href={project.link} target="_blank" rel="noreferrer">
+          Visit project <ArrowUpRight size={17} />
+        </a>
+      ) : (
+        <span className="project-link project-link-muted">Built during internship</span>
+      )}
     </div>
-  </motion.div>
+  </motion.article>
 );
 
 const Projects = () => {
+  const [activeFilter, setActiveFilter] = useState('All');
   const [activePreviewProject, setActivePreviewProject] = useState(null);
+  const visibleProjects = projects.filter((project) => activeFilter === 'All' || project.category === activeFilter);
 
-  const featuredProject = {
-    id: 'braintracs',
-    title: 'BrainTracs',
-    subtitle: 'AI/ML Simulation Environment',
-    image: braintracsImg,
-    previewVideo: braintracsPreviewVideo,
-    description: 'A thesis project that highlights advanced AI/ML simulation environment leveraging Deep Q-Learning (DQL) and Neural Networks to optimize traffic systems. Integrated with SUMO (Simulation of Urban MObility), this environment provides a robust framework for training agents in complex, multi-lane scenarios.',
-    tech: ['Python', 'TensorFlow', 'DQL', 'Neural Networks', 'SUMO'],
-    tags: ['AI / ML', 'SIMULATION'],
-    gradient: 'from-pink-600 via-purple-600 to-indigo-600',
-    features: [
-      'Deep Q-Learning (DQL) agent architectural design',
-      'High-fidelity traffic simulation using SUMO',
-      'Custom Neural Network for real-time state processing',
-      'Optimized reward systems for minimal wait times'
-    ]
-  };
-
-  const otherProjects = [
-    {
-      id: 'schoolaide',
-      title: 'SchoolAide Events Module',
-      link: '#',
-      image: schoolaideImg,
-      description: 'A comprehensive campus event management module made during my internship at Rakso CT, featuring real-time calendars, event registration, and role-based access control. Built with a focus on seamless student engagement and administrative efficiency.',
-      tech: ['HTML', 'CSS', 'JavaScript', 'Laravel', 'PHP Blade',  'TypeScript', 'Tailwind CSS', 'SQLite', 'Vite'],
-      tags: ['FULL STACK', 'ACADEMIC'],
-      gradient: 'from-indigo-600 to-purple-600',
-      featured: true
-    },
-    {
-      id: 'one900-architects',
-      title: 'ONE900 Architects & Builders',
-      link: 'https://one900-architects.vercel.app/',
-      image: one900,
-      description: 'A responsive portfolio website for a Batangas-based architecture and design-build studio, presenting its profile, services, project archive, team, and contact channels in a refined visual experience.',
-      tech: ['React', 'Vite', 'Tailwind CSS', 'Responsive Design'],
-      tags: ['WEB DESIGN', 'ARCHITECTURE'],
-      gradient: 'from-amber-700 via-orange-600 to-rose-600'
-    }
-  ];
+  useEffect(() => {
+    if (!activePreviewProject) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setActivePreviewProject(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activePreviewProject]);
 
   return (
-    <section id="projects">
-      <div className="mb-16">
-        <h2 className="text-sm font-bold tracking-[0.3em] uppercase text-primary mb-4">Featured Work</h2>
-        <div className="flex items-end justify-between">
-          <h3 className="text-4xl md:text-5xl font-bold font-outfit">Showcasing <span className="text-white/60">Innovation.</span></h3>
+    <section id="projects" className="work-section">
+      <div className="section-heading-row">
+        <div>
+          <p className="section-kicker">01 / Selected work</p>
+          <h2 className="display-heading">Things I’ve<br className="heading-break" /> <span>made.</span></h2>
         </div>
+        <p className="section-aside">A mix of experiments, school projects, and things made for real people.</p>
       </div>
 
-      <div className="flex flex-col gap-8 mb-12">
-        <ProjectCard
-          project={featuredProject}
-          featured={true}
-          onOpenPreview={setActivePreviewProject}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {otherProjects.map(project => (
-          <div key={project.id} className={project.featured ? 'md:col-span-2' : ''}>
-            <ProjectCard project={project} featured={project.featured ?? false} />
-          </div>
-        ))}
-        {/* Empty slot placeholder for future projects */}
-        <div className="glass rounded-3xl border-dashed border-2 border-white/5 flex flex-col items-center justify-center p-12 text-center group cursor-pointer hover:border-primary/30 transition-colors">
-          <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <Code className="text-gray-600 group-hover:text-primary transition-colors" size={32} />
-          </div>
-          <h4 className="text-xl font-bold font-outfit text-gray-500 group-hover:text-white transition-colors">Next Big Project</h4>
-          <p className="text-gray-600 mt-2">Currently developing something amazing...</p>
-        </div>
-      </div>
-
-      {activePreviewProject && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-          onClick={() => setActivePreviewProject(null)}
-        >
-          <div
-            className="w-full max-w-5xl rounded-3xl border border-white/10 bg-[#060816]/95 p-4 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+      <div className="project-filters" role="group" aria-label="Filter projects">
+        {filters.map((filter) => (
+          <button
+            type="button"
+            key={filter}
+            className={activeFilter === filter ? 'is-active' : ''}
+            aria-pressed={activeFilter === filter}
+            onClick={() => setActiveFilter(filter)}
           >
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-primary">Preview</p>
-                <h3 className="text-2xl font-bold font-outfit">{activePreviewProject.title}</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setActivePreviewProject(null)}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300 transition hover:bg-white/10"
-              >
-                Close
-              </button>
-            </div>
+            {filter}
+            {filter === 'All' && <span>{projects.length}</span>}
+          </button>
+        ))}
+      </div>
 
-            <div className="aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
-              <video controls autoPlay playsInline className="h-full w-full object-contain">
+      <motion.div layout className="project-grid">
+        <AnimatePresence mode="popLayout">
+          {visibleProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} onOpenPreview={setActivePreviewProject} />
+          ))}
+        </AnimatePresence>
+      </motion.div>
+
+      <AnimatePresence>
+        {activePreviewProject && (
+          <motion.div
+            className="preview-backdrop"
+            role="presentation"
+            onClick={() => setActivePreviewProject(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="preview-dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="preview-title"
+              onClick={(event) => event.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97, y: 8 }}
+            >
+              <div className="preview-heading">
+                <div><p className="section-kicker">Project preview</p><h3 id="preview-title">{activePreviewProject.title}</h3></div>
+                <button type="button" onClick={() => setActivePreviewProject(null)} aria-label="Close preview"><X size={20} /></button>
+              </div>
+              <video controls autoPlay playsInline>
                 <source src={activePreviewProject.previewVideo} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

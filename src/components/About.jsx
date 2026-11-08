@@ -19,7 +19,7 @@ const About = () => {
 
             <h2 className="text-4xl font-bold font-outfit mb-6 text-white text-glow-sm">About Me</h2>
             <p className="text-gray-400 leading-relaxed mb-6 font-light text-lg">
-              Hello! I'm <span className="text-white font-medium">James Christopher Esteban</span>, a passionate Computer Science student based in the Philippines. I specialize in bridging the gap between high-performance backends and intuitive user interfaces, with a deep interest in Artificial Intelligence.
+              Hello! I'm <span className="text-white font-medium">James Christopher Esteban</span>, a Computer Science graduate based in the Philippines. I specialize in bridging the gap between high-performance backends and intuitive user interfaces, with a deep interest in Artificial Intelligence.
             </p>
             <p className="text-gray-400 leading-relaxed font-light text-lg">
               I also have extensive experience handling and analyzing data using <span className="text-secondary font-medium">RapidMiner</span>, <span className="text-primary font-medium">Power BI</span>, and <span className="text-tertiary font-medium">Tableau</span>. My mission is to build intelligent systems that solve real-world problems.
